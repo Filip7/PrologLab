@@ -1,17 +1,17 @@
-majka(ivana, luka).
-majka(marica, ana).
-majka(marica, ivana).
-majka(marija, stipe).
-majka(marija, ruza).
-majka(marija, ante).
+roditelj(ivana, luka).
+roditelj(marica, ana).
+roditelj(marica, ivana).
+roditelj(marija, stipe).
+roditelj(marija, ruza).
+roditelj(marija, ante).
 
-otac(franjo, joza).
-otac(franjo, marica).
-otac(stipe, ana).
-otac(stipe, ivana).
-otac(ivan, stipe).
-otac(ivan, ruza).
-otac(ivan, ante).
+roditelj(franjo, joza).
+roditelj(franjo, marica).
+roditelj(stipe, ana).
+roditelj(stipe, ivana).
+roditelj(ivan, stipe).
+roditelj(ivan, ruza).
+roditelj(ivan, ante).
 
 spol(marija, z).
 spol(ruza, z).
@@ -37,24 +37,27 @@ godina(stipe, 1967).
 godina(ante, 1971).
 godina(luka, 2017).
 
-roditelj(Roditelj, Dijete) :- 
-    majka(Roditelj, Dijete);
-    otac(Roditelj, Dijete).
+majka(X, Y) :- 
+	spol(X, z), 
+	roditelj(X, Y).
+
+otac(X, Y) :- 
+	spol(X, m), 
+	roditelj(X, Y).
 
 predak(X, Y) :-
     roditelj(Z, Y),
     roditelj(X, Z).
     
-% Tu treba popraviti nesto, pojavljuju se duplikati
-dijete(X) :- 
-    roditelj(_, X).
+dijete(X, Y) :- 
+    roditelj(Y, X).
     
-sin(X) :-
-    dijete(X),
+sin(X, Y) :-
+    dijete(X, Y),
     spol(X, m).
     
-kcer(X) :-
-    dijete(X),
+kcer(X, Y) :-
+    dijete(X, Y),
     spol(X, z).
     
 djed(X, Y) :-
@@ -68,19 +71,39 @@ baka(X, Y) :-
     roditelj(X, Z).
     
 pradjed(X, Y) :-
-    roditelj(Z, Y),
+    (djed(Z, Y); baka(Z, Y)),
     otac(X, Z).
     
 prabaka(X, Y) :-
-    roditelj(Z, Y),
+    (djed(Z, Y); baka(Z, Y)),
     majka(X, Z).
     
-teta() :-
-    
+   
+%TODO OVO DOVRSITI
+teta(Teta, Necak).
+	
+/* Naredbe za zadatke	
 
+otac(Otac, Dijete).
+majka(Majka, Dijete).
+roditelj(Roditelj, Dijete).
+predak(Predak, Rod).
+dijete(Dijete, Roditelj).
+sin(Sin, Roditelj).
+kcer(Kcer, Roditelj).
+baka(Baka, Unuk).
+djed(Djed, Unuk).
+prabaka(Prabaka, Praunuk).
+pradjed(Pradjed, Praunuk).
 
+%Dodati ujne n shit
 
+spol(Zensko, z);
 
+spol(Musko, m);
 
+godina(Osoba, Godine), Godine > 1940, Godine < 1970.
+
+*/
 
 
