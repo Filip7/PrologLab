@@ -77,33 +77,153 @@ pradjed(X, Y) :-
 prabaka(X, Y) :-
     (djed(Z, Y); baka(Z, Y)),
     majka(X, Z).
+
+teta_po_majci(Teta, Necak) :-
+    spol(Teta, z),
+    majka(Mama, Necak),
+    roditelj(Z, Teta),
+    roditelj(Z, Mama),
+    Mama \= Teta.
     
-   
-%TODO OVO DOVRSITI
-teta(Teta, Necak).
+teta_po_ocu(Teta, Necak) :-
+    spol(Teta, z),
+    otac(Tata, Necak),
+    roditelj(Z, Teta),
+    roditelj(Z, Tata),
+    Tata \= Teta.
 	
-/* Naredbe za zadatke	
+ujak(Ujak, Necak) :-
+    spol(Ujak, m),
+    majka(Mama, Necak),
+    roditelj(Z, Ujak),
+    roditelj(Z, Mama),
+    Mama \= Ujak.
+    
+stric(Stric, Necak) :-
+    spol(Stric, m),
+    otac(Tata, Necak),
+    roditelj(Z, Stric),
+    roditelj(Z, Tata),
+    Tata \= Stric.
+    
+ispisi_oceve :-
+    forall(
+        otac(Otac, Dijete),
+        format(`~w je otac od ~w~n`, [Otac, Dijete])
+    ).
+    
+ispisi_majke :-
+    forall(
+        majka(Majka, Dijete),
+        format(`~w je majka od ~w~n`, [Majka, Dijete])
+    ).
+    
+ispisi_roditelje :-
+    forall(
+        roditelj(Roditelj, Dijete),
+        format(`~w je roditelj od ~w~n`, [Roditelj, Dijete])
+    ).
+    
+ispisi_predke :-
+    forall(
+        predak(Predak, Rod),
+        format(`~w je predak od ~w~n`, [Predak, Rod])
+    ).
+    
+ispisi_djecu :-
+    forall(
+        dijete(Dijete, Roditelj),
+        format(`~w je dijete od ~w~n`, [Dijete, Roditelj])
+    ).
+    
+ispisi_sinove :-
+    forall(
+        sin(Sin, Roditelj),
+        format(`~w je sin od ~w~n`, [Sin, Roditelj])
+    ).
+    
+ispisi_kceri :-
+    forall(
+        kcer(Kcer, Roditelj),
+        format(`~w je kcer od ~w~n`, [Kcer, Roditelj])
+    ).
+    
+ispisi_bake :-
+    forall(
+        baka(Baka, Unuk),
+        format(`~w je baka od ~w~n`, [Baka, Unuk])
+    ).
+    
+ispisi_djedove :-
+    forall(
+        djed(Djed, Unuk),
+        format(`~w je djed od ~w~n`, [Djed, Unuk])
+    ).
+    
+ispisi_prabake :-
+    forall(
+        prabaka(PraBaka, Unuk),
+        format(`~w je prabaka od ~w~n`, [PraBaka, Unuk])
+    ).
+    
+ispisi_pradjedove :-
+    forall(
+        djed(PraDjed, Unuk),
+        format(`~w je pradjed od ~w~n`, [PraDjed, Unuk])
+    ).
+    
+ispisi_tete_po_majci :-
+    forall(
+        teta_po_majci(Teta, Necak),
+        format(`~w je teta od ~w~n`, [Teta, Necak])
+    ).
 
-otac(Otac, Dijete).
-majka(Majka, Dijete).
-roditelj(Roditelj, Dijete).
-predak(Predak, Rod).
-dijete(Dijete, Roditelj).
-sin(Sin, Roditelj).
-kcer(Kcer, Roditelj).
-baka(Baka, Unuk).
-djed(Djed, Unuk).
-prabaka(Prabaka, Praunuk).
-pradjed(Pradjed, Praunuk).
+ispisi_tete_po_ocu :-
+    forall(
+        teta_po_ocu(Teta, Necak),
+        format(`~w je teta od ~w~n`, [Teta, Necak])
+    ).
+    
+ispisi_ujake :-
+    forall(
+        ujak(Ujak, Necak),
+        format(`~w je ujak od ~w~n`, [Ujak, Necak])
+    ).
+    
+ispisi_striceve :-
+    forall(
+        stric(Stric, Necak),
+        format(`~w je stric od ~w~n`, [Stric, Necak])
+    ).
 
-%Dodati ujne n shit
+ispisi_zene :-
+    writeln("Zene su:"),
+    forall(
+        spol(Zena, z),
+        writeln(Zena)
+    ).
+    
+ispisi_muske :-
+    writeln("Muski su:"),
+    forall(
+        spol(Musko, m),
+        writeln(Musko)
+    ).
+    
+ispisi_osobe_odredene_starosti :-
+    writeln("Osobe rodene izmedu 1940 i 1970 godine su:"),
+    forall(
+        (godina(Osoba, Godine), Godine > 1940, Godine < 1970),
+        writeln(Osoba)
+    ).
 
-spol(Zensko, z);
-
-spol(Musko, m);
-
-godina(Osoba, Godine), Godine > 1940, Godine < 1970.
-
-*/
-
-
+ispisi_osobe_rodene_izmedu_datuma :-
+    write("Unesite prvu godinu: "),
+    read(God1),
+    write("Unesite drugu godinu: "),
+    read(God2),
+    format(`Osobe rodene izmedu ~w i ~w godine su:~n`, [God1, God2]),
+    forall(
+        (godina(Osoba, Godine), Godine > God1, Godine < God2),
+        writeln(Osoba)
+    ).
