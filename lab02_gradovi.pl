@@ -35,18 +35,41 @@ veza(labin, barban, 15).
 
 veza(barban, pula, 28).
 
-povezan(X, Y, D) :-
-    veza(X, Y, D);
-    veza(Y, X, D).
+povezan(Grad1, Grad2, Duljina) :-
+    veza(Grad1, Grad2, Duljina);
+    veza(Grad2, Grad1, Duljina).
 
-put(A, B, X, Y) :- 
-    povezan(A, B, Y).
+put(Pocetni, Cilj, Put, Duljina) :-
+       putuj(Pocetni, Cilj, [Pocetni], Q, Duljina), 
+       reverse(Q, Put).
+
+putuj(Pocetni, Cilj, Put,[Cilj|Put], Dulj) :- 
+       povezan(Pocetni, Cilj, Dulj).
+putuj(Pocetni,Cilj, Posjecen, Put, Duljina) :-
+       povezan(Pocetni,C,Dulj),           
+       C \== Cilj,
+       \+member(C,Posjecen),
+       putuj(C,Cilj,[C|Posjecen], Put,Duljina2),
+       Duljina is Dulj+Duljina2.  
     
-put(A, B, X, Y) :-
-    povezan(A, Z, Udaljenost),
-    put(Z, B, X, Udaljenost2),
-    Y is Udaljenost2 + Udaljenost.
+
+sve_veze_iznad_20_km :-
+	forall(
+		(put(Grad1, Grad2, Veza, Duljina), Duljina > 19),
+		format("Duljina izmedu ~w i ~w je ~w~nPut:~w ~n", [Grad1, Grad2, Duljina, Veza])
+    ).
     
-    
+sve_veze :-
+	forall(
+		put(Grad1, Grad2, Veza, Duljina),
+		format("Duljina izmedu ~w i ~w je ~w~nPut:~w ~n", [Grad1, Grad2, Duljina, Veza])
+    ).
+
+sve_veze_izmedu_opatijePule_150km :-
+	forall(
+		(put(opatija, pula, Veza, Duljina), Duljina < 150),
+		format("Duljina izmedu opatije i pule je ~w~nPut:~w ~n", [Duljina, Veza])
+    ).
+
     
     
