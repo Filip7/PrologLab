@@ -26,9 +26,27 @@ veza(baderna, kanfanar, 19).
 
 veza(kanfanar, rovinj, 18).
 veza(kanfanar, vodnjan, 29).
+
 veza(vodnjan, pula, 12).
+
 veza(pula, medulin, 9).
 
 veza(labin, barban, 15).
 
 veza(barban, pula, 28).
+
+povezan(X, Y, D) :-
+    veza(X, Y, D);
+    veza(Y, X, D).
+
+put(A, B, X, Y) :- 
+    povezan(A, B, Y).
+    
+put(A, B, X, Y) :-
+    povezan(A, Z, Udaljenost),
+    put(Z, B, X, Udaljenost2),
+    Y is Udaljenost2 + Udaljenost.
+    
+    
+    
+    
